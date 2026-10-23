@@ -72,7 +72,7 @@ const signUpWithPassword: MutationResolvers['signUpWithPassword'] = async (
   }
 
   const verifiedByInvite = await isValidEmailInvitationToken(email, invitationToken)
-  if (!verifiedByInvite) {
+  if (!verifiedByInvite && process.env.AUTH_EMAIL_VERIFICATION_DISABLED !== 'true') {
     const existingVerification = await pg
       .selectFrom('EmailVerification')
       .selectAll()
